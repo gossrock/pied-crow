@@ -1,0 +1,14 @@
+#!/bin/sh -e
+#
+# rc.local
+# /etc/rc.local
+#
+# To start up the bell on Raspberry Pi startup.
+# 
+# 1. Place this file in /etc/
+# 2. make sure that it execution permissions 
+# 3. change path to the bell_controler.py file to the place where you saved the file.
+#
+/home/username/bell/bell_controler.py &
+
+exit 0
