@@ -1,17 +1,14 @@
 #!/bin/sh -e
 #
 # rc.local
-# (/etc/rc.local)
+# /etc/rc.local
 #
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
+# To start up the bell on Raspberry Pi startup.
+# 
+# 1. Place this file in /etc/
+# 2. make sure that it execution permissions 
+# 3. change path to the bell_controler.py file to the place where you saved the file.
 #
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
-
-/home/peter/Desktop/bell/bell_controler.py &
+/home/username/bell/bell_controler.py &
 
 exit 0
