@@ -1,6 +1,9 @@
 import time
 
-import RPi.GPIO as GPIO
+try:
+	import RPi.GPIO as GPIO
+except ImportError:
+	import StubGPIO as GPIO
 
 
 DEFAULT_PINS=[2,3,4,17]

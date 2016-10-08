@@ -1,5 +1,5 @@
 #! /usr/bin/python
-import PiSwitchesStubs as PiSwitches
+import PiSwitches as PiSwitches
 import time
 
 
