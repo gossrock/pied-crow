@@ -7,62 +7,43 @@
 #
 #
 # much of this comes from http://mjduffin.net/2015/01/03/deploying-django-gunicorn-and-nginx-on-the-raspberry-pi/
-#
-# at this point it assumes you are loged in as the primary admin user
-#
-#
-#
-sudo apt-get install python-virtualenv
+# rearranged for automation and modified for our specific application
+
+
+# install all nessisary packages through apt
+sudo apt-get install python-virtualenv python-dev superviser nginx
 
 # create user
-
 sudo groupadd --system webapps
 sudo useradd --system --gid webapps --shell /bin/bash --home /webapps/pied-crow pied-crow
 sudo mkdir -p /webapps/pied-crow/
 sudo chown pied-crow /webapps/pied-crow/
 
-
-# now change to the new user
-sudo su - pied-crow
-cd /webapps/pied-crow/
-virtualenv -p /usr/bin/python3.5 .
-
-source bin/activate
-
-pip install django gunicorn
-# may want to git clone our app repository at this point
-
-# need to do something with a start up script for gunicorn here
-
-source bin/deactivate
-
-sudo aptitude install python-dev
-
-source bin/activate
-pip install setproctitle
-
-sudo apt-get install superviser
-
-# need to do something with the superviser pied-crow.conf file here
+# move setup some files and directories for latter
+cp ./gunicorn_startup /webapps/pied-crow/bin/ #gunicorn superviser startup script
+mkdir -p /webapps/pied-crow/logs/ # log file directory
+touch /webapps/pied-crow/logs/gunicorn_supervisor.log #log file for gunicorn
+cp ./pied-crow.conf /etc/supervisor/conf.d/
 
 
-mkdir -p /webapps/pied-crow/logs/
-touch /webapps/pied-crow/logs/gunicorn_supervisor.log
-
-
-
-sudo supervisorctl reread
-sudo supervisorctl update
-
-
-sudo apt-get install nginx
-sudo service nginx start
-
-
-# take care of /etc/nginx/sites-available/pied-crow file here
-
+# enable the site
+cp ./pied-crow /etc/nginx/sites-available/pied-crow
 sudo ln -s /etc/nginx/sites-available/pied-crow /etc/nginx/sites-enabled/pied-crow
 sudo rm /etc/nginx/sites-enabled/default
 
 
-# settings.py file
+# now change to the new user
+sudo su - pied-crow
+
+# create a virtualenv
+virtualenv -p /usr/bin/python3 .
+source bin/activate
+# now install what is needed in the virtualenv
+pip install django gunicorn setproctitle
+
+
+# startup the supervisor
+sudo supervisorctl reread
+sudo supervisorctl update
+# startup nginx
+sudo service nginx start
