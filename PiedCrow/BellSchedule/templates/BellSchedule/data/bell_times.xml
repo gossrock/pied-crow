@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<bell_times>
+	{% for bell in schedule.bellring_set.all %}
+	<bell>
+		<lable>{{ bell.note }}</lable>
+		<hour>{{ bell.hour }}</hour>
+		<minute>{{ bell.minute }}</minute>
+	</bell>
+	{% endfor %}
+</bell_times>
