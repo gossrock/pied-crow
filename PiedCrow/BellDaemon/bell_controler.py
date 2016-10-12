@@ -9,6 +9,17 @@
 import PiSwitches as PiSwitches
 import time
 
+# this chunk is related to getting this to work with django
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'PiedCrow.settings'
+import django
+django.setup()
+
+
+# importing the django classes that relate to ringing the bell
+from BellSchedule.models import Schedule
+from BellSchedule.models import EmergencyBells
+
 
 RELAY_BOARD = PiSwitches.FourPortRelaySwitch()
 
@@ -36,24 +47,32 @@ def print_now():
 	"""
 	print(time.strftime("The time is %H:%M:%S"))
 
-def LoadTimesFile(filename):
+def LoadTimesFile():
 	"""
 		LoadTimesFile
 		
-		exspects a file name (including the path) for the file containing
-		the times when the bell should ring. The file should be formated
-		with a time on each line in 24 hour time (ex 14:30)
+		gets the most recent schedule changes from the django database
 	"""
 	return_list = []
-	f = open(filename, 'r')
-	for line in f:
-		hour, minuite = line.split(":")
-		return_list.append({"hour":int(hour), "min":int(minuite)})
+	sched = Schedule.objects.get(pk=1) #needs to be updated so that it will figure out the current day's schedule
+	bells = sched.bellring_set.all()
+	for bell in bells:
+		return_list.append({"hour":bell.hour(), "min":bell.minute()})
 	return return_list
 		
-BELLS = LoadTimesFile(TIME_FILE) #load the bells file the first time before running
+def CheckForEmergency():
+	"""
+		CheckForEmergency
+		
+		checks for a change in the database that indicates that an alarm
+		is to be sounded.
+	"""
+	return EmergencyBells.objects.filter(active=True)
+		
+		
 
-BELLDURATION=4 #duration of a normal bell ring.
+BELLS = LoadTimesFile(TIME_FILE) #load the bells file the first time before running
+BELLDURATION=4 #duration of a normal bell ring. needs to be updated to work with the database
 
 if __name__ == "__main__":
 	print_now() # print time at start up
@@ -70,6 +89,11 @@ if __name__ == "__main__":
 						BELL_SWITCH.onFor(BELLDURATION)
 			elif sec == 10: # reload the bell list on the 10th second of each min
 				 BELLS = LoadTimesFile(TIME_FILE)
+			else:
+				ems = CheckForEmergency()
+				for e in ems:
+					#obviously this is only proof of concept code.
+					print(e.name)
 			time.sleep(1)
 
 	except KeyboardInterrupt:
