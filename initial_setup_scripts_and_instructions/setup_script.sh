@@ -11,7 +11,7 @@
 
 
 # install all nessisary packages through apt
-sudo apt-get install python-virtualenv python-dev superviser nginx
+sudo apt-get install python-virtualenv python-dev supervisor nginx
 
 # create user
 sudo groupadd --system webapps
