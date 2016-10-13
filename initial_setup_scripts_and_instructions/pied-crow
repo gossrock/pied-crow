@@ -3,13 +3,13 @@ upstream pied-crow_app_server {
   # to return a good HTTP response (in case the Unicorn master nukes a
   # single worker for timing out).
  
-  server unix:/webapps/pied-crow/run/gunicorn.sock fail_timeout=0;
+  server unix:/webapps/pied-crow/pied-crow/run/gunicorn.sock fail_timeout=0;
 }
  
 server {
  
-    listen   8008;
-    server_name example.com;
+    listen   80;
+    server_name 192.168.10.44;
  
     client_max_body_size 4G;
  
@@ -17,11 +17,11 @@ server {
     error_log /webapps/pied-crow/logs/nginx-error.log;
  
     location /static/ {
-        alias   /webapps/pied-crow/static/;
+        alias   /webapps/pied-crow/pied-crow/static/;
     }
  
     location /media/ {
-        alias   /webapps/pied-crow/media/;
+        alias   /webapps/pied-crow/pied-crow/media/;
     }
  
     location / {
@@ -59,6 +59,6 @@ server {
     # Error pages
     error_page 500 502 503 504 /500.html;
     location = /500.html {
-        root /webapps/pied-crow/static/;
+        root /webapps/pied-crow/pied-crow/static/;
     }
 }

@@ -1,8 +1,8 @@
 #!/bin/bash
  
 NAME="pied-crow_app"                                  # Name of the application
-DJANGODIR=/webapps/pied-crow/PiedCrow             # Django project directory
-SOCKFILE=/webapps/pied-crow/run/gunicorn.sock  # we will communicte using this unix socket
+DJANGODIR=/webapps/pied-crow/pied-crow/PiedCrow             # Django project directory
+SOCKFILE=/webapps/pied-crow/pied-crow/run/gunicorn.sock  # we will communicte using this unix socket
 USER=pied-crow                                        # the user to run as
 GROUP=webapps                                     # the group to run as
 NUM_WORKERS=1                                     # how many worker processes should Gunicorn spawn

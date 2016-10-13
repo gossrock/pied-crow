@@ -19,15 +19,19 @@ sudo useradd --system --gid webapps --shell /bin/bash --home /webapps/pied-crow 
 sudo mkdir -p /webapps/pied-crow/
 sudo chown pied-crow /webapps/pied-crow/
 
+# need to add the main admin user to the webapps group
+# need to make sure that the prerminssions on the directories allw group read/write
+
+
 # move setup some files and directories for latter
-cp ./gunicorn_startup /webapps/pied-crow/bin/ #gunicorn superviser startup script
+cp ./gunicorn_start /webapps/pied-crow/bin/ #gunicorn superviser startup script
 mkdir -p /webapps/pied-crow/logs/ # log file directory
 touch /webapps/pied-crow/logs/gunicorn_supervisor.log #log file for gunicorn
-cp ./pied-crow.conf /etc/supervisor/conf.d/
+sudo cp ./pied-crow.conf /etc/supervisor/conf.d/
 
 
 # enable the site
-cp ./pied-crow /etc/nginx/sites-available/pied-crow
+sudo cp ./pied-crow /etc/nginx/sites-available/pied-crow
 sudo ln -s /etc/nginx/sites-available/pied-crow /etc/nginx/sites-enabled/pied-crow
 sudo rm /etc/nginx/sites-enabled/default
 
