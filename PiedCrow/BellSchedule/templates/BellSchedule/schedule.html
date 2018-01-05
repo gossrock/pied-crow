@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Alarm Clock</title>
+	<link rel="stylesheet" href="/static/BellSchedule/css/w3.css">
+	<link rel="stylesheet" href="/static/BellSchedule/css/aisw3.css">
+	<script src='js/clock.js'></script>
+
+	
+</head>
+
+<body>
+	
+		<div class="w3-card-8 w3-center">
+			<header class="w3-container w3-theme head">
+				<h1>{{ schedule.name}}</h1>
+			</header>
+		</div>
+	<table class='w3-table w3-striped'>
+			{% for bell in schedule.bellring_set.all %}
+		<tr>
+			<td>{{ bell.time }}</td>
+			<td>{{ bell.note }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+</html>

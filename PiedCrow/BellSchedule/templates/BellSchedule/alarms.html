@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Alarms</title>
+	<link rel="stylesheet" href="/static/BellSchedule/css/w3.css">
+	<link rel="stylesheet" href="/static/BellSchedule/css/aisw3.css">
+</head>
+<body>
+	<div class="w3-row w3-theme" style="position:fixed; width:100%;">
+		<center><h1>Alarms</h1></center>
+	</div>
+<div class="w3-theme-light">
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	{% for alarm in types %}
+		<center><a class='w3-btn w3-red w3-hover-green w3-round-xxlarge' href='/alarms/start/{{ alarm.pk }}/'>Start {{ alarm.name }} Alarm</a></center><br>
+	{% endfor %}
+
+	{% if current_events.count > 0 %}
+		<br>
+		<h3 class="w3-panel w3-theme">Currently Active Events:</h3>
+		<table class='w3-table w3-striped'>
+			<tr><td>Alarm Type</td><td>Activation Time</td><td>Silence Time</td><td>All Clear Time</td></tr>
+		{% for alarm in current_events %}
+			<tr>
+				<td>{{ alarm.emergency_type }}</td>
+				<td>{{ alarm.start_time }}</td>
+				<td>{% if alarm.stop_time is None %}<a class='w3-btn w3-red w3-hover-green w3-round-xxlarge' href='/alarms/stop/{{ alarm.pk }}/'>Silence {{ alarm.emergency_type }}</a><br />{% else %}{{ alarm.stop_time }} {% endif %}</td>
+				<td>{% if alarm.all_clear_time is None %}<a class='w3-btn w3-red w3-hover-green w3-round-xxlarge' href='/alarms/all_clear/{{ alarm.pk }}/'>Send All Clear for {{ alarm.emergency_type }}</a><br />{% else %}{{ alarm.all_clear_time }} {% endif %}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	{% endif %}
+
+
+	{% if te.count > 0 %}
+		<br>
+		<div  class="w3-panel w3-theme w3-padding-8"><span class="w3-large">Today's events:</span>
+		<div class='w3-btn w3-red w3-hover-green w3-round-xlarge w3-small w3-padding-4' id='today_open' onclick="document.getElementById('todays_events').style.display='block'; document.getElementById('today_close').style.display='inline'; document.getElementById('today_open').style.display='none'">Open</div>
+		<div class='w3-btn w3-red w3-hover-green w3-round-xlarge  w3-small w3-padding-4' id='today_close' style="display:none" onclick="document.getElementById('todays_events').style.display='none'; document.getElementById('today_close').style.display='none'; document.getElementById('today_open').style.display='inline'">Close</div></div>
+		<table class='w3-table w3-striped' style="display:none" id="todays_events">
+			<tr><td>Alarm Type</td><td>Activation Time</td><td>Silence Time</td><td>All Clear Time</td></tr>
+		{% for alarm in te %}
+			<tr>
+				<td>{{ alarm.emergency_type }}</td>
+				<td>{{ alarm.start_time }}</td>
+				<td>{{ alarm.stop_time }}</td>
+				<td>{{ alarm.all_clear_time }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	{% endif %}
+
+	{% if all_events.count > 0 %}
+		<br>
+		<div  class="w3-panel w3-theme w3-padding-8"><span class="w3-large">All events:</span>
+		<span class='w3-btn w3-red w3-hover-green w3-round-xlarge w3-small w3-padding-4' id='all_open' onclick="document.getElementById('all_events').style.display='block'; document.getElementById('all_close').style.display='inline'; document.getElementById('all_open').style.display='none'">Open</span>
+		<span class='w3-btn w3-red w3-hover-green w3-round-xlarge  w3-small w3-padding-4' id='all_close' style="display:none" onclick="document.getElementById('all_events').style.display='none'; document.getElementById('all_close').style.display='none'; document.getElementById('all_open').style.display='inline'">Close</span></div>
+		<table class='w3-table w3-striped' style="display:none" id="all_events">
+			<tr><td>Alarm Type</td><td>Activation Time</td><td>Silence Time</td><td>All Clear Time</td></tr>
+		{% for alarm in all_events %}
+			<tr>
+			<td>{{ alarm.emergency_type }}</td>
+				<td>{{ alarm.start_time }}</td>
+				<td>{{ alarm.stop_time }}</td>
+				<td>{{ alarm.all_clear_time }}</td>
+			</tr>
+		{% endfor %}
+		</table>
+	{% endif %}
+</div>
+</body>
+</html>

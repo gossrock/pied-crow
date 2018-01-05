@@ -3,34 +3,38 @@
 
 <head>
 	<title>Alarm Clock</title>
-	<link rel="stylesheet" href="static/css/w3.css">
-	<link rel="stylesheet" href="static/css/aisw3.css">
+	<link rel="stylesheet" href="/static/BellSchedule/css/w3.css">
+	<link rel="stylesheet" href="/static/BellSchedule/css/aisw3.css">
 	<script src='js/clock.js'></script>
-	<style>
-		.w3-theme-light {color:#1c6434 !important; background-color:#ffeb3b !important}
-		.w3-theme-dark {color:#fff !important; background-color:#0e321a !important}
-		.w3-theme {color:#ffeb3b !important; background-color:#1c6434 !important}
-		
-		.center { margin: 0; position: absolute;top: 50%; left: 50%;transform: translate(-50%, -50%); width:50%; height:50%;}
-		.head {height: 12%}
-		.content {height: 78%}
-		.foot {height:12%}
-	</style>
+
 	
 </head>
 
-<body class="w3-dark-grey">
+<body>
 	
-		<div class="w3-card-8 w3-center center">
+		<div class="w3-card-8 w3-center">
 			<header class="w3-container w3-theme head">
 				<h1>School Bell</h1>
 			</header>
 			<div class="w3-container w3-theme-light content">
 				<br>
+				<span id="date" class="w3-large"></span><br>
 				<span id="time" class="w3-xxlarge"></span><br>
 				<span id="last_alarm"></span>
 				<br>
 			</div>
+			<footer class="w3-container w3-theme foot">
+				<span class="w3-tiny">Time Offset: <span id="debug">&nbsp;</span></span>
+			</footer>
+		</div>
+		<br>
+		<div id="schedule_card" class="w3-card-8 w3-center">
+			<header class="w3-container w3-theme head">
+				<h1>Today's Schedule: <span id="sched_name"></span></h1>
+			</header>
+			
+			<div id='schedule_table'></div>
+			
 			<footer class="w3-container w3-theme foot">
 				<h5>&nbsp;</h5>
 			</footer>

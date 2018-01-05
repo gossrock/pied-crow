@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>{{ calendar.name }}</title>
+	<link rel="stylesheet" href="/static/BellSchedule/css/w3.css">
+	<link rel="stylesheet" href="/static/BellSchedule/css/aisw3.css">
+
+	
+</head>
+
+<body>
+	<div class="w3-row w3-theme" style="position:fixed; width:100%; background-color:white;">
+		<h1>{{ calendar.name }}</h1>
+		<br>
+		<center>
+			<div class="w3-card-2 w3-col w3-margin" style="width:12%">Monday</div>
+			<div class="w3-card-2 w3-col w3-margin" style="width:12%">Tuesday</div>
+			<div class="w3-card-2 w3-col w3-margin" style="width:12%">Wednesday</div>
+			<div class="w3-card-2 w3-col w3-margin" style="width:12%">Thursday</div>
+			<div class="w3-card-2 w3-col w3-margin" style="width:12%">Friday</div>
+		</center>
+	</div>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	<br>
+	{% if calendar.start_date.weekday > 0 %} <center><div class="w3-row"><div class="w3-card-2 w3-col w3-margin" style="width:12%">&nbsp;</div> {% endif %}
+	{% if calendar.start_date.weekday > 1 %} <div class="w3-card-2 w3-col w3-margin" style="width:12%">&nbsp;</div> {% endif %}
+	{% if calendar.start_date.weekday > 2 %} <div class="w3-card-2 w3-col w3-margin" style="width:12%">&nbsp;</div> {% endif %}
+	{% if calendar.start_date.weekday > 3 %} <div class="w3-card-2 w3-col w3-margin" style="width:12%">&nbsp;</div> {% endif %}
+	
+	{% for date, sched in days %}
+		{% if date.weekday == 0 %}
+			<center><div class="w3-row">
+		{% endif %}
+	
+		{% if date.weekday is not 5 and date.weekday is not 6 %}
+			<div class="w3-card-2 w3-col w3-margin" style="width:12%">
+				<header class="w3-theme">{{ date }}</header>
+				<div class="w3-theme-light">
+					{% for special in calendar.specialday_set.all %}
+						{% if special.date == date %}
+							<div class='w3-red'>{{ special.name }}</div>
+						{% endif %}
+					{% endfor%}
+					<a href="/schedule/{{ sched.pk }}">{{ sched }}</a>
+				</div>
+			</div>
+		{% endif %}
+		
+		{% if date.weekday == 6 %}
+			</div></center>
+		{% endif %}
+	{% endfor %}
+	
+</body>
+
+</html>

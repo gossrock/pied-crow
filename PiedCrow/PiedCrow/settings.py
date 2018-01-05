@@ -34,6 +34,7 @@ INSTALLED_APPS = [
 	'BellSchedule.apps.BellscheduleConfig',
     'django.contrib.admin',
     'django.contrib.auth',
+    #'django.contrib.auth.urls',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -100,6 +101,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL='/admin/login/'
+LOGIN_REDIRECT_URL="/admin/"
+LOGOUT_REDIRECT_URL="/"
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
@@ -119,10 +123,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/webapps/pied-crow/static'
+STATIC_ROOT = '/webapps/pied-crow/pied-crow/static'
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"), os.path.join(BASE_DIR, "BellSchedule/static") )
  
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_ROOT = '/webapps/pied-crow/pied-crow/media'
 MEDIA_URL = '/media/'
  
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]

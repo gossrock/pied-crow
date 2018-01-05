@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <bell_times>
+	<sched_name>{{ schedule.name }}</sched_name>
 	{% for bell in schedule.bellring_set.all %}
 	<bell>
 		<lable>{{ bell.note }}</lable>
